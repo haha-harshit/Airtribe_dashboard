@@ -1,9 +1,16 @@
 <template>
-  <Tutorial/>
+  <div>
+    <AppHeader/>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'IndexPage'
+  name: 'IndexPage',
+  head(){
+    return {
+      title: "Airtribe | Dashboard"
+    }
+  }
 }
 </script>
