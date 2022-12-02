@@ -1,6 +1,6 @@
 <template>
     <header class="header">
-        <h2 class="title">Group On</h2>
+        <h2 class="title">Tracklia</h2>
         <ul>
             <li>
                 <NuxtLink to="/">Home</NuxtLink>

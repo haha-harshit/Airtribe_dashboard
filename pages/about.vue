@@ -1,14 +1,21 @@
 <template>
     <div>
         <h3>
-            Group your projects...
+            A tool to manage your project features...
         </h3>
         <br>
         <p>
-            - Move your project to lists with different tags.
-        </p>
-        <p>
-            - Set it's status from 'Not Started❌'... to 'In progress💡'... to 'Completed🎉'.
+            <ul>
+                <li>
+                    - Keep track of your project features.
+                </li>
+                <li>
+                    - Set a project's status from 'Not Started❌'... to 'In progress💡'... to 'Completed🎉'.
+                </li>
+                <li>
+                    - Make new lists according to your need.
+                </li>
+            </ul>
         </p>
     </div>    
 </template>
