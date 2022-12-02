@@ -1,7 +1,10 @@
 <template>
     <header class="header">
-        <h2 class="title">Organize your Projects</h2>
+        <h2 class="title">Group On</h2>
         <ul>
+            <li>
+                <NuxtLink to="/">Home</NuxtLink>
+            </li>
             <li>
                 <NuxtLink to="/about">About Us</NuxtLink>
             </li>
@@ -19,7 +22,7 @@ export default {
 <style>
     .header{
         display: flex;
-        justify-content: center;
+        justify-content: space-evenly;
         align-items: center;
         margin-bottom: 1rem;
         padding-bottom: 1rem;

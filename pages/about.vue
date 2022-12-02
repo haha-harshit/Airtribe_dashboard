@@ -1,6 +1,15 @@
 <template>
     <div>
-        <NuxtLink to="/">Home</NuxtLink>
+        <h3>
+            Group your projects...
+        </h3>
+        <br>
+        <p>
+            - Move your project to lists with different tags.
+        </p>
+        <p>
+            - Set it's status from 'Not Started❌'... to 'In progress💡'... to 'Completed🎉'.
+        </p>
     </div>    
 </template>
 
@@ -8,7 +17,7 @@
 export default {
     head(){
         return {
-            title: "About Us Page"
+            title: "Airtribe | About Us"
         }
     }
 }
