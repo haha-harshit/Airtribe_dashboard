@@ -1,38 +1,15 @@
 
 <template>
-  <v-card
-    class="mx-auto"
-    max-width="344"
-    outlined
-  >
-    <v-list-item three-line>
-      <v-list-item-content>
-        <div class="text-overline mb-4">
-          OVERLINE
-        </div>
-        <v-list-item-title class="text-h5 mb-1">
-          Headline 5
-        </v-list-item-title>
-        <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
-      </v-list-item-content>
+  <div class="d-flex flex-row">
+    <v-btn depressed @click="dialog=true" class="create-list">
+      New list
+    </v-btn>
+<!-- 
+    <v-dialog v-model="dialog" persistent max-width="600px">
+      <v-card elevation="0"></v-card>
+    </v-dialog> -->
 
-      <v-list-item-avatar
-        tile
-        size="80"
-        color="grey"
-      ></v-list-item-avatar>
-    </v-list-item>
-
-    <v-card-actions>
-      <v-btn
-        outlined
-        rounded
-        text
-      >
-        Button
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+  </div>
 </template>
 
 <script>
