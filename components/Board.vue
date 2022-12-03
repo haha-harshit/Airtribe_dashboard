@@ -52,7 +52,7 @@
                     Close
                     </v-btn>
                     <v-btn color="blue darken-1" text @click="createList()">
-                    Save
+                    Create List
                     </v-btn>
                 </v-card-actions>
 
@@ -69,6 +69,7 @@
 // const board2 = JSON.parse(localStorage.getItem('board'))
 
 import { v4 as uuidv4, v4 } from 'uuid'
+
 export default {
     name: "Board",
     data(){
@@ -90,6 +91,39 @@ export default {
             drawer: false,
         }
     },
+
+    // async asyncData({ params }){
+    //     let boardRef = this.$fire.firestore
+    //     .collection('board')
+    //     .doc(params.id)
+
+    //     let boardData = {}
+
+    //     await boardRef
+    //         .get()
+    //         .then(function(doc){
+    //             if(doc.exists){
+    //                 boardData = doc.data()
+    //                 boardData.id = params.id
+    //             }
+    //         })
+    //         .catch(function(error){})
+    //     return {board: boardData}
+    // },
+
+    // created(){
+    //     let that = this
+    //     let tempId = this.board.id
+    //     let boardRef = $fire.firestore
+    //         .collection('boards')
+    //         .doc(tempId)
+    //         .onSnapShot((doc) => {
+    //             if(doc.exists){
+    //                 that.board = doc.data()
+    //                 that.board.id = tempId
+    //             }
+    //         })
+    // },
 
     // fetch data from fake api
     // async fetch(){
@@ -113,11 +147,22 @@ export default {
                     that.board.lists = []
                     that.board.lists.push(that.list)
                 }
+
+                await that.updateBoard()
+
                 that.list = {}
                 // console.log(that.list.cards)
-                localStorage.setItem('board', JSON.stringify(that.board.lists))
-                console.log(that.board)
+                // localStorage.setItem('board', JSON.stringify(that.board.lists))
+                // console.log(that.board)
             }
+        },
+        
+        async updateBoard(){
+            let that = this
+            await that.$fire.firestore
+                .collection('board')
+                .doc(that.board.id)
+                .update(that.board, {merge: true})
         },
 
         async clear(){
@@ -142,8 +187,6 @@ export default {
     //     .then(res => res.json())
     //     .then((json) => console.log(json))
     // },
-
-
     }
 }
 </script>

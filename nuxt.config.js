@@ -33,12 +33,29 @@ export default {
     // Simple usage
     '@nuxtjs/vuetify',
 
-    // With options
-    ['@nuxtjs/vuetify', { /* module options */ }]
+    // // With options
+    // ['@nuxtjs/vuetify', { /* module options */ }]
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    [
+      '@nuxtjs/firebase',
+      {
+        config: {
+          apiKey: "AIzaSyDKrE43J8AoHFD-lLX9QnRjx49r35wp9nE",
+          authDomain: "airtribe-dashboard-dev.firebaseapp.com",
+          projectId: "airtribe-dashboard-dev",
+          storageBucket: "airtribe-dashboard-dev.appspot.com",
+          messagingSenderId: "169919849256",
+          appId: "1:169919849256:web:9e899b218dba182347261d"
+        },
+        services: {
+          // auth: true // Just as example. Can be any other service.
+          firestore: true,
+        }
+      }
+    ]
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
