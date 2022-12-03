@@ -1,10 +1,14 @@
+
 <template>
 <div data-app>
     <div class="d-flex flex-column board">
     <div class="d-flex flex-row pr-6 pt-3 inn-board">
     <div v-for="list in board.lists" class="d-flex flex-column pt-3 mr-6 list" v-bind:key="list.id">
         <div class="d-flex flex-row justify-space-between list-head">
+            <!-- <p v-if="$fetchState.pending">Loading....</p>
+            <p v-else-if="$fetchState.error">Error while fetching mountains</p> -->
             <h4>{{ list.title }}</h4>
+            <!-- <h4>{{ getListTitle }}</h4> -->
             <v-icon small @click="deleteList(list.id)">mdi-delete-outline</v-icon>
             
         </div>
@@ -62,23 +66,13 @@
 </template>
 
 <script>
-const board = []
+// const board2 = JSON.parse(localStorage.getItem('board'))
+
 import { v4 as uuidv4, v4 } from 'uuid'
 export default {
-    
     name: "Board",
     data(){
         return {
-            // board: [{
-            //     list: {
-            //         list_id: '',
-            //         title: '',
-            //         cards: [{
-            //             cards_id: '',
-            //             cards_title: '',
-            //         }]
-            //     }
-            // }],
             board: {},
             listId: '',
             list: {
@@ -96,13 +90,20 @@ export default {
             drawer: false,
         }
     },
+
+    // fetch data from fake api
+    // async fetch(){
+    //     this.board.lists = await fetch('https://my-json-server.typicode.com/haha-harshit/fake-api/list')
+    //     .then(res => res.json())
+    // },
+    
     methods: {
         async createList(){
-            // console.log(board)
+            // console.log(this.board)
             let that = this
             that.dialog = false
-            const newListInp = document.getElementById("inp").value
-            // console.log(newListInp)
+            // const newListInp = document.getElementById("inp").value
+            // // console.log(newListInp)
             if( that.list.title != '' ){
                 that.list.id = uuidv4()
                 that.list.cards = []
@@ -114,9 +115,7 @@ export default {
                 }
                 that.list = {}
                 // console.log(that.list.cards)
-                localStorage.setItem('board', JSON.stringify(that.board))
-                // console.log(newListInp);
-                // that.dialog = false
+                localStorage.setItem('board', JSON.stringify(that.board.lists))
                 console.log(that.board)
             }
         },
@@ -125,7 +124,26 @@ export default {
         let that = this
         that.list.title = '',
         that.dialog = false
-        }
+        },
+
+    //     async update(){
+    //         console.log(this.board.lists[1])
+    //     this.board.lists[1] = await fetch('https://my-json-server.typicode.com/haha-harshit/fake-api/list?id=2', {
+    //         method: 'POST',
+    //         body: JSON.stringify({
+    //             id: 1000,
+    //             title: "no list",
+    //             cards: []
+    //         }),
+    //         headers: {
+    //             'Content-type': 'application/json; charset=UTF-8'
+    //         },
+    //     })
+    //     .then(res => res.json())
+    //     .then((json) => console.log(json))
+    // },
+
+
     }
 }
 </script>
