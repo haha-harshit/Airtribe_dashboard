@@ -1,5 +1,24 @@
 <template>
 <div data-app>
+    <div class="d-flex flex-column board">
+    <div class="d-flex flex-row pr-6 pt-3 inn-board">
+    <div v-for="list in board.lists" class="d-flex flex-column pt-3 mr-6 list" v-bind:key="list.id">
+        <div class="d-flex flex-row justify-space-between list-head">
+            <h4>{{ list.title }}</h4>
+            <v-icon small @click="deleteList(list.id)">mdi-delete-outline</v-icon>
+            
+        </div>
+
+        <v-btn
+            depressed
+            @click="
+                dialogCard=true 
+                listId = list.id
+            "
+            class="mt-auto"
+        >Add Card</v-btn>
+
+    </div>
     <div class="d-flex flex-row">
         <v-btn depressed @click="dialog=true" class="create-list">
             New list
@@ -37,6 +56,8 @@
         </v-dialog>
 
     </div>
+    </div>
+    </div>
 </div>
 </template>
 
@@ -59,7 +80,7 @@ export default {
             //     }
             // }],
             board: {},
-            list_id: '',
+            listId: '',
             list: {
                 title: ''
             },
@@ -109,6 +130,46 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.board {
+  padding: 12px;
+  height: 75vh;
+  overflow:auto;
 
+  .inn-board{
+    display: flex;
+  }
+  
+  .list {
+    min-width: 260px;
+    width: 260px;
+    background-color: rgb(228 228 228 / 35%);
+    padding: 25px;
+    border-radius: 12px;
+    min-height: 60vh;
+    margin: 0px 15px 0px 15px;
+    // padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .list-head{
+        display: flex;
+        justify-content: space-between;
+    }
+
+  }
+  .create-list {
+    background-color: rgb(228 228 228 / 35%);
+    // padding: 15px;
+  }
+  a {
+    text-decoration: none;
+  }
+  .menu-items a {
+    // color: $text-color;
+    padding: 10px 0px 10px 3px;
+    font-size: 24px;
+  }
+}
 </style>

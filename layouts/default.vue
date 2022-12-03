@@ -38,10 +38,10 @@ ul {
 }
 
 .container {
-  max-width: 900px;
+  max-width: 80vw;
   margin: 2rem auto;
   overflow: hidden;
-  padding: 1rem 2rem;
+  /* padding: 1rem 2rem; */
   background: #fff;
 }
 </style>
