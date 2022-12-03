@@ -67,14 +67,15 @@
 
 <script>
 // const board2 = JSON.parse(localStorage.getItem('board'))
-
 import { v4 as uuidv4, v4 } from 'uuid'
 
 export default {
     name: "Board",
     data(){
         return {
-            board: {},
+            board: {
+                id: 'lists'
+            },
             listId: '',
             list: {
                 title: ''
@@ -92,38 +93,43 @@ export default {
         }
     },
 
-    // async asyncData({ params }){
-    //     let boardRef = this.$fire.firestore
-    //     .collection('board')
-    //     .doc(params.id)
+    async asyncData({ params }){
+        // this.board.id = uuidv4()
+        // console.log(params.id)
+        let boardRef = $nuxt.$fire.firestore
+        .collection('board')
+        .doc('lists')
 
-    //     let boardData = {}
+        let boardData = {}
 
-    //     await boardRef
-    //         .get()
-    //         .then(function(doc){
-    //             if(doc.exists){
-    //                 boardData = doc.data()
-    //                 boardData.id = params.id
-    //             }
-    //         })
-    //         .catch(function(error){})
-    //     return {board: boardData}
-    // },
+        await boardRef
+            .get()
+            .then(function(doc){
+                if(doc.exists){
+                    boardData = doc.data()
+                    boardData.id = params.id
+                }
+            })
+            .catch(function(error){console.log('error')})
+        return {board: boardData}
+    },
 
-    // created(){
-    //     let that = this
-    //     let tempId = this.board.id
-    //     let boardRef = $fire.firestore
-    //         .collection('boards')
-    //         .doc(tempId)
-    //         .onSnapShot((doc) => {
-    //             if(doc.exists){
-    //                 that.board = doc.data()
-    //                 that.board.id = tempId
-    //             }
-    //         })
-    // },
+    created(){
+        let that = this
+        let tempId = this.board.id
+        // console.log('here')
+        // console.log(tempId);
+        let boardRef = this.$fire.firestore
+            .collection('boards')
+            .doc(tempId)
+            .onSnapshot((doc) => {
+                if(doc.exists){
+                    // console.log("hyyy")
+                    that.board = doc.data()
+                    that.board.id = tempId
+                }
+            })
+    },
 
     // fetch data from fake api
     // async fetch(){
@@ -148,20 +154,23 @@ export default {
                     that.board.lists.push(that.list)
                 }
 
+                // console.log(that.board.id)
                 await that.updateBoard()
 
                 that.list = {}
                 // console.log(that.list.cards)
                 // localStorage.setItem('board', JSON.stringify(that.board.lists))
-                // console.log(that.board)
             }
         },
         
         async updateBoard(){
             let that = this
+            // console.log('here')
+            console.log(that.board.id)
             await that.$fire.firestore
                 .collection('board')
-                .doc(that.board.id)
+                .doc('lists')
+                // .doc('lists')
                 .update(that.board, {merge: true})
         },
 
