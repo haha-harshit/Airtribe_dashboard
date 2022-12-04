@@ -13,6 +13,17 @@
             
         </div>
 
+        <!-- display cards -->
+        <v-card 
+        v-for="card in list.cards"
+        :draggable="true"
+        class="mt-5"
+        @click="editCard(card)"
+        v-bind:key="card.id"
+        >
+            <v-card-text> {{ card.title }}</v-card-text>
+        </v-card>
+
         <v-btn
             depressed
             @click="
@@ -23,6 +34,35 @@
         >Add Card</v-btn>
 
     </div>
+
+
+    <v-dialog v-model="dialogCard" persistent max-width="600px">
+        <v-card elevation="0">
+            <v-card-title>
+                <span class="headline"> Card Name </span>
+            </v-card-title>
+            
+            <v-card-text>
+                <v-container>
+                    <v-row>
+                        <v-col cols="12">
+                            <v-text-field label="Task" v-model="card.title" required>     
+                            </v-text-field>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-card-text>
+
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="dialogCard = false">Close</v-btn>
+                <v-btn color="blue darken-1" text @click="createCard()">Create</v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
+
+
+
     <div class="d-flex flex-row">
         <v-btn depressed @click="dialog=true" class="create-list">
             New list
@@ -182,6 +222,36 @@ export default {
             }
         },
         
+        async createCard(){
+            let that = this
+            that.dialogCard = false
+            if(that.card.title != ''){
+                that.card.id = uuidv4()
+                that.card.listId = that.listId
+                if(that.board.lists){
+                    let index =-1
+                    let count =0
+                    for(const list of that.board.lists){
+                        if(list.id === that.listId){
+                            index = count
+                        }
+                        count++
+                    }
+                    if(index != -1){
+                        if(that.board.lists[index].cards){
+                            that.board.lists[index].cards.push(that.card)
+                        }else{
+                            that.board.lists[index].cards = []
+                            that.board.lists[index].cards.push(that.card)
+                        }
+                    }
+                }
+
+                await that.updateBoard()
+                that.card = {}
+                that.listId =''
+            }
+        },
         async updateBoard(){
             let that = this
             // console.log('here')
@@ -199,22 +269,6 @@ export default {
         that.dialog = false
         },
 
-    //     async update(){
-    //         console.log(this.board.lists[1])
-    //     this.board.lists[1] = await fetch('https://my-json-server.typicode.com/haha-harshit/fake-api/list?id=2', {
-    //         method: 'POST',
-    //         body: JSON.stringify({
-    //             id: 1000,
-    //             title: "no list",
-    //             cards: []
-    //         }),
-    //         headers: {
-    //             'Content-type': 'application/json; charset=UTF-8'
-    //         },
-    //     })
-    //     .then(res => res.json())
-    //     .then((json) => console.log(json))
-    // },
     }
 }
 </script>
