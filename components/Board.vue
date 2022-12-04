@@ -71,8 +71,8 @@
             <!-- action-btns -->
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="dialogCard = false">Close</v-btn>
-                <v-btn color="blue darken-1" text @click="createCard()">Create</v-btn>
+                <v-btn depressed text @click="dialogCard = false">Close</v-btn>
+                <v-btn color="primary" text @click="createCard()">Create</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -203,7 +203,7 @@ export default {
         async createList(){
             let that = this
             that.dialog = false
-            if( that.list.title != '' ){
+            if(that.list.title){
                 that.list.id = uuidv4()
                 that.list.cards = []
                 if(that.board.lists){
@@ -287,7 +287,7 @@ export default {
         async createCard(){
             let that = this
             that.dialogCard = false
-            if(that.card.title != ''){
+            if(that.card.title){
                 that.card.id = uuidv4()
                 that.card.listId = that.listId
                 if(that.board.lists){
@@ -405,6 +405,7 @@ export default {
   .i_card{
     flex-grow: 1;
     margin-top: 20px;
+    overflow: auto;
   }
   .inn_card{
     text-align: center;
@@ -413,14 +414,17 @@ export default {
   .inn-board{
     display: flex;
   }
-  
+  .mt-auto{
+    margin-top: 20px;
+  }
   .list {
     min-width: 260px;
     width: 260px;
     background-color: rgb(228 228 228 / 35%);
     padding: 25px;
     border-radius: 12px;
-    min-height: 60vh;
+    min-height: 70vh;
+    max-height: 70vh;
     margin: 0px 15px 0px 15px;
     // padding: 15px;
     display: flex;
