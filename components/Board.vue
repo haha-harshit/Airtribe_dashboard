@@ -3,7 +3,11 @@
 <div data-app>
     <div class="d-flex flex-column board">
     <div class="d-flex flex-row pr-6 pt-3 inn-board">
-    <div v-for="list in board.lists" class="d-flex flex-column pt-3 mr-6 list" v-bind:key="list.id">
+    <div v-for="list in board.lists"
+        @drop="drop($event, list.id)"
+        @dragover="allowDrop($event)"
+        class="d-flex flex-column pt-3 mr-6 list"
+        v-bind:key="list.id">
         <div class="d-flex flex-row justify-space-between list-head">
             <!-- <p v-if="$fetchState.pending">Loading....</p>
             <p v-else-if="$fetchState.error">Error while fetching mountains</p> -->
@@ -17,6 +21,8 @@
         <v-card 
         v-for="card in list.cards"
         :draggable="true"
+        @dragover.prevent
+        @dragstart="drag($event, card)"
         class="mt-5"
         @click="editCard(card)"
         v-bind:key="card.id"
@@ -226,6 +232,51 @@ export default {
                 // console.log(that.list.cards)
                 // localStorage.setItem('board', JSON.stringify(that.board.lists))
             }
+        },
+
+        async updateCardList(newListId){
+            let that = this
+            let tempListIndex = -1
+            let tempCardIndex = -1
+            let newListIndex = -1
+            let tempListCount =0
+            let tempCardCount =0
+
+            for(const list of that.board.lists){
+                if(list.id === newListId){
+                    newListIndex = tempListCount
+                }
+                if(that.currentCard.listId === list.id){
+                    tempListIndex = tempListCount
+                    for(let card of list.cards){
+                        if(card.id === that.currentCard.id){
+                            tempCardIndex = tempCardCount
+                        }
+                        tempCardCount++
+                    }
+                }
+                tempListCount++
+            }
+
+            // remove current card from currentlist
+            that.board.lists[tempListIndex].cards.splice(tempCardIndex, 1)
+
+            // add curr card to new list
+            that.currentCard.listId = newListId
+            that.board.lists[newListIndex].cards.push(that.currentCard)
+
+            await that.updateBoard()
+        },
+
+        allowDrop(ev){
+            ev.preventDefault()
+        },
+        drag(ev, card){
+            this.currentCard = card
+        },
+        drop(ev, listId){
+            ev.preventDefault()
+            this.updateCardList(listId)
         },
 
 
