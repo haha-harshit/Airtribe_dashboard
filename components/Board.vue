@@ -3,21 +3,23 @@
 <div data-app>
     <div class="d-flex flex-column board">
     <div class="d-flex flex-row pr-6 pt-3 inn-board">
+
+        <!-- display list in board -->
     <div v-for="list in board.lists"
         @drop="drop($event, list.id)"
         @dragover="allowDrop($event)"
         class="d-flex flex-column pt-3 mr-6 list"
         v-bind:key="list.id">
         <div class="d-flex flex-row justify-space-between list-head">
-            <!-- <p v-if="$fetchState.pending">Loading....</p>
-            <p v-else-if="$fetchState.error">Error while fetching mountains</p> -->
+
             <h4>{{ list.title }}</h4>
-            <!-- <h4>{{ getListTitle }}</h4> -->
+
+            <!-- delete list btn -->
             <v-icon small @click="deleteList(list.id)">mdi-delete-outline</v-icon>
             
         </div>
 
-        <!-- display cards -->
+        <!-- display cards in a list-->
         <v-card 
         v-for="card in list.cards"
         :draggable="true"
@@ -30,6 +32,7 @@
             <v-card-text> {{ card.title }}</v-card-text>
         </v-card>
 
+        <!-- btn to ADD NEW CARD -->
         <v-btn
             depressed
             @click="
@@ -42,6 +45,7 @@
     </div>
 
 
+    <!-- ADD CARD - DIALOG BOX -->
     <v-dialog v-model="dialogCard" persistent max-width="600px">
         <v-card elevation="0">
             <v-card-title>
@@ -59,6 +63,7 @@
                 </v-container>
             </v-card-text>
 
+            <!-- action-btns -->
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue darken-1" text @click="dialogCard = false">Close</v-btn>
@@ -70,10 +75,12 @@
 
 
     <div class="d-flex flex-row">
+        <!-- ADD NEW LIST  -->
         <v-btn depressed @click="dialog=true" class="create-list">
             New list
         </v-btn>
         
+        <!-- DIALOG FOR NEW LIST(status list) -->
         <v-dialog v-model="dialog" persistent max-width="600px">
             <v-card elevation="0">
         
@@ -92,6 +99,7 @@
                     </v-container>
                 </v-card-text>
             
+                <!-- action btns -->
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" text @click="clear()">
@@ -106,6 +114,8 @@
         </v-dialog>
     </div>
 
+
+    <!-- DIALOG FOR EDIT CARD -->
     <v-dialog v-model="dialogEditCard" persistent max-width="600px">
         <v-card elevation="0">
             <v-card-title>
@@ -135,7 +145,7 @@
 </template>
 
 <script>
-// const board2 = JSON.parse(localStorage.getItem('board'))
+
 import { v4 as uuidv4, v4 } from 'uuid'
 
 export default {
@@ -161,36 +171,11 @@ export default {
         }
     },
 
-    // async asyncData({ params }){
-    //     // this.boardId = uuidv4()
-    //     // console.log(this.boardId)
-    //     console.log('ny')
-    //     let boardRef = $nuxt.$fire.firestore
-    //     .collection('board')
-    //     .doc('YAFfoGAaFupdZhZzzZ4H')
-    //     // .set(this.board)
-
-    //     let boardData = {}
-
-    //     await boardRef
-    //         .get()
-    //         .then(function(doc){
-    //             if(doc.exists){
-    //                 boardData = doc.data()
-    //                 console.log(boardData)  
-    //                 boardData.id = params.id
-    //             }
-    //         })
-    //         .catch(function(error){console.log('error')})
-    //     return {board: boardData}
-    // },
-
+    // will be called when page loads
     created(){
         this.boardId = 'YAFfoGAaFupdZhZzzZ4H'
         let that = this
         let tempId = this.boardId
-        console.log('hppppp')
-        console.log(tempId);
         let boardRef = this.$fire.firestore
             .collection('board')
             .doc(tempId)
@@ -209,12 +194,10 @@ export default {
     // },
     
     methods: {
+        // function for creating new status list
         async createList(){
-            // console.log(this.board)
             let that = this
             that.dialog = false
-            // const newListInp = document.getElementById("inp").value
-            // // console.log(newListInp)
             if( that.list.title != '' ){
                 that.list.id = uuidv4()
                 that.list.cards = []
@@ -225,15 +208,14 @@ export default {
                     that.board.lists.push(that.list)
                 }
 
-                // console.log(that.board.id)
+                //update board after creating list locally 
                 await that.updateBoard()
-
+                // make list empty before returning
                 that.list = {}
-                // console.log(that.list.cards)
-                // localStorage.setItem('board', JSON.stringify(that.board.lists))
             }
         },
 
+        // update the cards in a particular list 
         async updateCardList(newListId){
             let that = this
             let tempListIndex = -1
@@ -279,7 +261,7 @@ export default {
             this.updateCardList(listId)
         },
 
-
+        // call for deleting list
         async deleteList(listId){
             let that = this
             let index =-1
@@ -296,6 +278,7 @@ export default {
             }
         },
         
+        // call for creating card
         async createCard(){
             let that = this
             that.dialogCard = false
@@ -327,7 +310,7 @@ export default {
             }
         },
 
-
+        // call to update card
         async updateCard(){
             let that = this
             that.dialogEditCard = false
@@ -344,6 +327,7 @@ export default {
             await that.updateBoard()
         },
 
+        // call to delete card
         async deleteCard(){
             let that = this
             that.dialogEditCard = false
@@ -378,28 +362,25 @@ export default {
             // const cardName = card.title
         },
 
+        // call to close edit-dialog 
         async dialogEditCardOnClose(prevTitle){
             console.log(prevTitle)
             let that = this
             that.dialogEditCard=false
             that.currentCard.title = prevTitle
-            // console.log(that.currentCard.title)
-            // console.log(that.card.title)
-
-            // this.currentCard.title = cardName
         },
 
+        // any updation to board on firebase db 
         async updateBoard(){
             let that = this
-            // console.log('here')
             console.log(that.board.id)
             await that.$fire.firestore
                 .collection('board')
                 .doc('YAFfoGAaFupdZhZzzZ4H')
-                // .doc('lists')
                 .update(that.board, {merge: true})
         },
 
+        // clearing status
         async clear(){
         let that = this
         that.list.title = '',
