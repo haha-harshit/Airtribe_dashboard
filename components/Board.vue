@@ -117,7 +117,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="red darken-1" text @click="deleteCard()">Delete</v-btn>
-                <v-btn color="blue darken-1" text @click="dialogEditCard=false">Close</v-btn>
+                <v-btn color="blue darken-1" text @click="dialogEditCardOnClose(currentCard.title)">Close</v-btn>
                 <v-btn color="blue darken-1" text @click="updateCard()">Update</v-btn>
             </v-card-actions>
         </v-card>
@@ -276,6 +276,23 @@ export default {
             }
         },
 
+
+        async updateCard(){
+            let that = this
+            that.dialogEditCard = false
+            for(const list of that.board.lists){
+                if(that.currentCard.listId === list.id){
+                    for(let card of list.cards){
+                        if(card.id === that.currentCard.id){
+                            card = that.currentCard
+                            console.log("update")
+                        }
+                    }
+                }
+            }
+            await that.updateBoard()
+        },
+
         async deleteCard(){
             let that = this
             that.dialogEditCard = false
@@ -304,8 +321,21 @@ export default {
         },
 
         editCard(card){
+            console.log(card.title)
             this.dialogEditCard = true
             this.currentCard = card
+            // const cardName = card.title
+        },
+
+        async dialogEditCardOnClose(prevTitle){
+            console.log(prevTitle)
+            let that = this
+            that.dialogEditCard=false
+            that.currentCard.title = prevTitle
+            // console.log(that.currentCard.title)
+            // console.log(that.card.title)
+
+            // this.currentCard.title = cardName
         },
 
         async updateBoard(){
