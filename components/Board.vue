@@ -10,28 +10,30 @@
         @dragover="allowDrop($event)"
         class="d-flex flex-column pt-3 mr-6 list"
         v-bind:key="list.id">
+
         <div class="d-flex flex-row justify-space-between list-head">
-
-            <h4>{{ list.title }}</h4>
-
+            <div>
+            <h4>{{ list.title }}</h4>    
+            <span> <small> {{list.cards.length}} items</small></span>
+            </div>
             <!-- delete list btn -->
             <v-icon small @click="deleteList(list.id)">mdi-delete-outline</v-icon>
-            
         </div>
 
         <!-- display cards in a list-->
+        <div class="i_card">
         <v-card 
         v-for="card in list.cards"
         :draggable="true"
         @dragover.prevent
         @dragstart="drag($event, card)"
-        class="mt-5"
+        class="mt-5 inn_card"
         @click="editCard(card)"
         v-bind:key="card.id"
         >
             <v-card-text> {{ card.title }}</v-card-text>
         </v-card>
-
+        </div>
         <!-- btn to ADD NEW CARD -->
         <v-btn
             depressed
@@ -396,7 +398,15 @@ export default {
   padding: 12px;
   height: 75vh;
   overflow:auto;
-
+  
+  .i_card{
+    flex-grow: 1;
+    margin-top: 20px;
+  }
+  .inn_card{
+    text-align: center;
+    margin-top: 10px;
+  }
   .inn-board{
     display: flex;
   }
