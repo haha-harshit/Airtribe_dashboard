@@ -275,7 +275,33 @@ export default {
                 that.listId =''
             }
         },
-        
+
+        async deleteCard(){
+            let that = this
+            that.dialogEditCard = false
+            let i=0
+            let j=0
+            let index = {
+                list: -1,
+                card: -1,
+            }
+            for(const list of that.board.lists){
+                if(that.currentCard.listId === list.id){
+                    for(const card of list.cards){
+                        if(card.id === that.currentCard.id){
+                            index.list = i
+                            index.card = j
+                        }
+                        j++
+                    }
+                }
+                i++
+            }
+            if(index.list > -1){
+                that.board.lists[index.list].cards.splice(index.card, 1)
+                await that.updateBoard()
+            }
+        },
 
         editCard(card){
             this.dialogEditCard = true
