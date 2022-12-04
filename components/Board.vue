@@ -14,7 +14,10 @@
         <div class="d-flex flex-row justify-space-between list-head">
             <div>
             <h4>{{ list.title }}</h4>    
-            <span> <small> {{list.cards.length}} items</small></span>
+            <span>
+                <small v-if="list.cards.length>1"> {{list.cards.length}} items</small>
+                <small v-else>{{list.cards.length}} item</small>
+            </span>
             </div>
             <!-- delete list btn -->
             <v-icon small @click="deleteList(list.id)">mdi-delete-outline</v-icon>
