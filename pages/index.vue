@@ -1,7 +1,9 @@
 <template>
-  <div data-app>
+  <!-- <div data-app> -->
+    <v-app>
       <Board/>
-  </div>
+    </v-app>
+  <!-- </div> -->
 </template>
   
 

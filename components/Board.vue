@@ -1,6 +1,7 @@
 
 <template>
-<div data-app>
+<!-- <div v-app> -->
+    <v-app>
     <div class="d-flex flex-column board">
     <div class="d-flex flex-row pr-6 pt-3 inn-board">
 
@@ -39,13 +40,17 @@
         </div>
         <!-- btn to ADD NEW CARD -->
         <v-btn
-            depressed
+            fab
+            dark
+            small
+            elevation="10"
+            color="indigo"
             @click="
                 dialogCard=true 
                 listId = list.id
             "
             class="mt-auto"
-        >Add Card</v-btn>
+        > <v-icon>mdi-plus</v-icon></v-btn>
 
     </div>
 
@@ -71,8 +76,8 @@
             <!-- action-btns -->
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn depressed text @click="dialogCard = false">Close</v-btn>
-                <v-btn color="primary" text @click="createCard()">Create</v-btn>
+                <v-btn color="grey" depressed text @click="dialogCard = false">Close</v-btn>
+                <v-btn color="primary" depressed @click="createCard()">Create</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -81,7 +86,7 @@
 
     <div class="d-flex flex-row">
         <!-- ADD NEW LIST  -->
-        <v-btn depressed @click="dialog=true" class="create-list">
+        <v-btn depressed elevation="1" @click="dialog=true" class="create-list">
             New list
         </v-btn>
         
@@ -107,10 +112,10 @@
                 <!-- action btns -->
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="clear()">
+                    <v-btn depressed text color="grey" @click="clear()">
                     Close
                     </v-btn>
-                    <v-btn color="blue darken-1" text @click="createList()">
+                    <v-btn color="primary" depressed @click="createList()">
                     Create List
                     </v-btn>
                 </v-card-actions>
@@ -138,15 +143,16 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="red darken-1" text @click="deleteCard()">Delete</v-btn>
-                <v-btn color="blue darken-1" text @click="dialogEditCardOnClose(currentCard.title)">Close</v-btn>
-                <v-btn color="blue darken-1" text @click="updateCard()">Update</v-btn>
+                <v-btn depressed color="grey" text @click="dialogEditCardOnClose(currentCard.title)">Close</v-btn>
+                <v-btn color="primary" depressed @click="updateCard()">Update</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
 
     </div>
     </div>
-</div>
+    </v-app>
+<!-- </div> -->
 </template>
 
 <script>
@@ -404,27 +410,30 @@ export default {
   
   .i_card{
     flex-grow: 1;
-    margin-top: 20px;
+    margin-top: 15px;
+    margin-bottom: 10px;
     overflow: auto;
   }
   .inn_card{
     text-align: center;
     margin-top: 10px;
+    margin-bottom: 10px;
   }
   .inn-board{
     display: flex;
   }
   .mt-auto{
-    margin-top: 20px;
+    margin-top: 10px;
+
   }
   .list {
-    min-width: 260px;
-    width: 260px;
+    min-width: 280px;
+    width: 280px;
     background-color: rgb(228 228 228 / 35%);
     padding: 25px;
     border-radius: 12px;
-    min-height: 70vh;
-    max-height: 70vh;
+    min-height: 65vh;
+    max-height: 65vh;
     margin: 0px 15px 0px 15px;
     // padding: 15px;
     display: flex;

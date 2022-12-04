@@ -42,6 +42,8 @@ ul {
   margin: 2rem auto;
   overflow: hidden;
   /* padding: 1rem 2rem; */
+  border-radius: 5px;
   background: #fff;
+  max-height: 90vh;
 }
 </style>
